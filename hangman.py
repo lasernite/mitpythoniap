@@ -57,8 +57,9 @@ def get_word():
 MAX_GUESSES = 6
 
 # GLOBAL VARIABLES 
-secret_word = 'claptrap' # Change this 
-letters_guessed = ["t", "a"]
+secret_word  = get_word()
+letters_guessed = []
+joined_guessed = []
 
 # From part 3b:
 def word_guessed():
@@ -90,39 +91,66 @@ def print_guessed():
     '''
     global secret_word
     global letters_guessed
-    """
-    COMMENTED OUT AS UNECESSARY
-    # Set a dash for each letter in the secret word to start
-    base = len(secret_word)*"-"
-    # Convert base into list for manipulation
-    base_list = []
-    for dash in base:
-        base_list.append(dash)
-
-        """
-    # Replace each dash with guessed letters
-    list = []
+    global joined_guessed
+    
+    # Construct list of guessed letters and dashes
+    guessed_list = []
     for letter in secret_word:
         if letter in letters_guessed:
-            list.append(secret_word[secret_word.index(letter)])
+            guessed_list.append(secret_word[secret_word.index(letter)])
         else:
-            list.append("-")
-    joined_list = join(list, "")
-    print joined_list
+            guessed_list.append("-")
+    joined_guessed = join(guessed_list, "")
+    print joined_guessed
                         
 print_guessed()
 
 
 
-def play_hangman():
+def play_hangman():    
     # Actually play the hangman game
     global secret_word
     global letters_guessed
+    global joined_guessed
     # Put the mistakes_made variable here, since you'll only use it in this function
     mistakes_made = 0
+    # When 6 mistakes have been made, the game is over
+    while mistakes_made < 6:
+        # Get guess from user and make lowercase for checking
+        guess = raw_input("Enter a letter to guess: ").lower()
+        print ""
+        # Response to repeat guess
+        if guess in letters_guessed:
+            print "Letter already guessed \n"
+            print "Letters guessed are: " + join(letters_guessed, " ") + "\n"
+        else:
+            # Add the guess to list of guesses
+            letters_guessed.append(guess)
+        
+        # Check if correct guess and render response
+        # Response to correct guess
+        if guess in secret_word:
+            print "Correct Guess! " + str(6 - mistakes_made) + " guesses left!\n"
+            print_guessed()
+            print ""
+            if joined_guessed == secret_word:
+                print "You Win!"
+                break
+            print "Letters guessed are: " + join(letters_guessed, " ") + "\n"
+            
+        # Response to incorrect guess
+        else:
+            print "Incorrect Guess!\n"
+            mistakes_made += 1
+            if (6 - mistakes_made) > 0:
+                print str(6 - mistakes_made) + " guesses left!\n"
+                print "Letters guessed are: " + join(letters_guessed, " ") + "\n"
+                print_guessed()
+                print ""
+            # If no guesses left
+            else:
+                print "You Lose! \n"
+                print "The word was " + secret_word
 
-    # Update secret_word. Don't uncomment this line until you get to Step 8.
-    # secret_word  = get_word()
 
-    ####### YOUR CODE HERE ######
-    return None
+play_hangman()
