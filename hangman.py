@@ -6,6 +6,7 @@
 # Import statements: DO NOT delete these! DO NOT write code above this!
 from random import randrange
 from string import *
+from hangman_lib import *
 
 # -----------------------------------
 # Helper code
@@ -92,6 +93,12 @@ def play_hangman():
     
     # Put the mistakes_made variable here, since you'll only use it in this function
     mistakes_made = 0
+
+    # Copyright Credit
+    print "Game developed by Laser Nite, Art created by sk"
+
+    # Print starting graphic
+    print_hangman_image(0)
     
     # Show number of letters to player as dashes
     print "\n"
@@ -106,8 +113,10 @@ def play_hangman():
         
         # Response to repeat guess of letter in secret word
         if guess in letters_guessed and guess in joined_guessed:
+            print_hangman_image(mistakes_made)
             print "Letter already guessed \n"
             print "Letters guessed are: " + join(letters_guessed, " ") + "\n"
+            
             
         # Response to repeat guess of letter not in secret word
         elif guess in letters_guessed:
@@ -122,13 +131,17 @@ def play_hangman():
         # Check if correct guess and render response
         # Response to correct guess
         if guess in secret_word:
-            # Print Correct, Number of guesses left, and Dashes with known letters
+            # Print Graphic, Correct, Number of guesses left, and Dashes with known letters
+            print_hangman_image(mistakes_made)
             print "Correct Guess! " + str(6 - mistakes_made) + " guesses left!\n"
             guesses()
             print ""
             # If all letters are guessed, the player wins
             if joined_guessed == secret_word:
-                print "You Win!"
+                print_hangman_image(0)
+                print "You Saved Him! You Win! \n"
+                # Copyright Credit
+                print "Game developed by Laser Nite, Art created by sk"
                 break
             print "Letters guessed are: " + join(letters_guessed, " ") + "\n"
             
@@ -136,7 +149,8 @@ def play_hangman():
         else:
             # Increase mistakes made
             mistakes_made += 1
-            # Print Incorrect, Number of guesses left, Letters guessed, and Dashes/known letters
+            # Print Graphic, Incorrect, Number of guesses left, Letters guessed, and Dashes/known letters
+            print_hangman_image(mistakes_made)
             print "Incorrect Guess!\n"
             if (6 - mistakes_made) > 0:
                 print str(6 - mistakes_made) + " guesses left!\n"
@@ -146,7 +160,9 @@ def play_hangman():
             # Player loses if no guesses left
             else:
                 print "You Lose! \n"
-                print "The word was " + secret_word
+                print "The word was " + secret_word + "\n"
+                # Copyright Credit
+                print "Game developed by Laser Nite, Art created by sk"
 
 
 
