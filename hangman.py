@@ -1,7 +1,7 @@
 # Name: Laser Nite
 # MIT Username: nite
-# 6.S189 Project 1: Hangman template
-# hangman_template.py
+# 6.S189/6.149 Project 1: Hangman
+# hangman.py
 
 # Import statements: DO NOT delete these! DO NOT write code above this!
 from random import randrange
