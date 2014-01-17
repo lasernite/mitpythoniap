@@ -224,9 +224,10 @@ def changeEntry(addrBook, entry, field, newValue):
        del addrBook[entry]
     else:
         return "Invalid field"
-    return addrBook
+
 
 print buildAddrBook("rawAddresses.csv")
 print
-print changeEntry(buildAddrBook("rawAddresses.csv"), 'Obama, Barack', "name", "dog man pan")
+changeEntry(buildAddrBook("rawAddresses.csv"), 'Obama, Barack', "name", "dog man pan")
+print addrBook
 
