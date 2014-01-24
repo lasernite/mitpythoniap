@@ -142,7 +142,7 @@ class RectangularRoom(object):
         """
         x = pos.x
         y = pos.y
-        return x >= 0 and y >= 0 and x <= self.width and y <= self.height
+        return x >= 0 and y >= 0 and x <= self.width -1 and y <= self.height - 1
 
 
 class Robot(object):
@@ -272,21 +272,26 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     """
     time_steps = 0
     room = RectangularRoom(width, height)
-    robot = robot_type(room, speed)
+    robots = []
+    for bot in range(num_robots):
+        robots.append(robot_type(room, speed))
     trials = 0
     total_time_steps = 0
-    
     while trials < num_trials:
+        anim = ps6_visualize.RobotVisualization(num_robots, width, height, 0.01)
         while room.getNumCleanedTiles() < room.getNumTiles()*min_coverage:
-            robot.updatePositionAndClean()
+            anim.update(room, robots)
+            for botid in range(len(robots)):
+                robots[botid].updatePositionAndClean()
             time_steps += 1
         total_time_steps += time_steps
         time_steps = 0
         trials += 1
         room.clean_dic = {}
+        anim.done()
     return total_time_steps/trials
 
-print runSimulation(1, 1, 10, 10, 0.90, 50, StandardRobot)
+print runSimulation(5, 1, 10, 25, 1, 2, StandardRobot)
 
 # === Problem 4
 class RandomWalkRobot(Robot):
@@ -362,6 +367,8 @@ def showPlot1(title, x_label, y_label):
     pylab.ylabel(y_label)
     pylab.show()
 
+# showPlot1("Robots # Vs. Cleaning Speed", "Number of Robots", "Number of Time-Steps")
+
     
 def showPlot2(title, x_label, y_label):
     """
@@ -383,3 +390,5 @@ def showPlot2(title, x_label, y_label):
     pylab.xlabel(x_label)
     pylab.ylabel(y_label)
     pylab.show()
+
+# showPlot2("Size of Room vs Cleaning Time", "Room Ratio", "Time-Steps")
