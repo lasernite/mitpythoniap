@@ -278,7 +278,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     trials = 0
     total_time_steps = 0
     while trials < num_trials:
-        anim = ps6_visualize.RobotVisualization(num_robots, width, height, 0.01)
+        anim = ps6_visualize.RobotVisualization(num_robots, width, height, 0.02)
         while room.getNumCleanedTiles() < room.getNumTiles()*min_coverage:
             anim.update(room, robots)
             for botid in range(len(robots)):
@@ -291,7 +291,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         anim.done()
     return total_time_steps/trials
 
-print runSimulation(5, 1, 10, 25, 1, 2, StandardRobot)
+print runSimulation(25, 1, 20, 20, 1, 2, StandardRobot)
 
 # === Problem 4
 class RandomWalkRobot(Robot):
